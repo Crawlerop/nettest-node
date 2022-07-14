@@ -1,5 +1,6 @@
 const express = require("express");
 const websocket = require("ws");
+const path = require('path');
 
 var app = express();
 app = require('express-ws')(app).app;
@@ -23,11 +24,11 @@ app.ws("/zeroes",
 })
 
 app.get("/", (req, res) => {
-    res.sendFile("/root/ws-test/test.html")
+    res.sendFile(path.join(__dirname, "test.html"))
 });
 
 app.get("/256mb", (req, res) => {
-    res.sendFile("/root/ws-test/256mb.dat")
+    res.sendFile(path.join(__dirname, "256mb.dat"))
 });
 
 app.listen(65010)
