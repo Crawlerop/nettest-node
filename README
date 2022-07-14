@@ -1,0 +1,2 @@
+To create 256mb.dat:
+dd if=/dev/zero of=256mb.dat bs=16M count=16
