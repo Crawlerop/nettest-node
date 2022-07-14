@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <div id="test"></div>
+       <script>
+            var qs = new URLSearchParams(window.location.search);
+            var size = parseInt(qs.get("size") ? qs.get("size") : 32)*1000;
+
+            var ws = new WebSocket(`ws://${window.location.host}/zeroes${window.location.search}`);            
+            var ws_send_ss_size = 0;       
+
+            ws.onopen = function() {
+                
+                // Web Socket is connected, send data using send()
+                ws.send(new ArrayBuffer(size));
+                //alert("Message is sent...");
+            };
+                
+            ws.onmessage = function (evt) { 
+                var received_msg = evt.data;
+                
+                ws_send_ss_size += received_msg.size;
+                document.getElementById("test").innerHTML = `${Math.floor(ws_send_ss_size/1e6)} MB<br>${Math.floor(ws_send_ss_size/1000)} KB`;
+                ws.send(new ArrayBuffer(size));
+                //ws_send_ss_time = Date.now();
+                //alert("Message is received...");
+            };
+                
+            ws.onclose = function() { 
+                
+                // websocket is closed.
+                //alert("Connection is closed..."); 
+            };
+       </script> 
+    </body>
+</html>
